@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({required this.title, Key? key}) : super(key: key);
   final String title;
 
   @override
@@ -28,14 +28,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   static const String hintText = "Paste the link here....";
-  static MetaDataModel metaData;
+  static late MetaDataModel metaData;
 
   void _fetchMetadata(String link) async {
     try {
       metaData = await YoutubeMetaData.getData(link);
-    } catch (e) {
-      metaData = null;
-    }
+    } catch (e) {}
     setState(() {});
   }
 
@@ -60,9 +58,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 : Container(
                     child: Column(
                       children: [
-                        Image.network(metaData.thumbnailUrl),
+                        Image.network(metaData.thumbnailUrl ?? ''),
                         Divider(),
-                        Text(metaData.title),
+                        Text(metaData.title ?? ''),
                         Divider(color: Colors.transparent),
                         Text(
                           '''channel name :  ${metaData.authorName} \n\nchannel url :${metaData.authorUrl}
